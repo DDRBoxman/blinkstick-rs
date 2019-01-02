@@ -1,0 +1,10 @@
+[package]
+name = "blinkstick"
+version = "0.1.0"
+authors = ["Colin Edwards <colin@recursivepenguin.com>"]
+edition = "2018"
+repository = "https://github.com/DDRBoxman/blinkstick-rs"
+description = "Library to control BlinkStick devices"
+
+[dependencies]
+hidapi = "0.5.0"
