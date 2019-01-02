@@ -10,7 +10,7 @@ const BLINKSTICK_PRODUCT_ID: u16 = 0x41E5;
 const BLINKSTICK_INDEXED_LED_MSG_PACKET_SIZE: usize = 6;
 
 pub struct BlinkStickDevice {
-    _device: hidapi::HidDevice,
+    device: hidapi::HidDevice,
 }
 
 impl BlinkStickDevice {
@@ -19,7 +19,7 @@ impl BlinkStickDevice {
             Ok(api) => {
                 // Connect to device using its VID and PID
                 match api.open(BLINKSTICK_VENDOR_ID, BLINKSTICK_PRODUCT_ID) {
-                    Ok(device) => Ok(BlinkStickDevice { _device: device }),
+                    Ok(device) => Ok(BlinkStickDevice { device: device }),
                     Err(e) => return Err(e),
                 }
             }
@@ -42,6 +42,6 @@ impl BlinkStickDevice {
         buf[4] = g;
         buf[5] = b;
 
-        return self._device.send_feature_report(&buf);
+        return self.device.send_feature_report(&buf);
     }
 }

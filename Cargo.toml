@@ -1,6 +1,6 @@
 [package]
 name = "blinkstick"
-version = "0.1.0"
+version = "0.1.1"
 authors = ["Colin Edwards <colin@recursivepenguin.com>"]
 edition = "2018"
 repository = "https://github.com/DDRBoxman/blinkstick-rs"
