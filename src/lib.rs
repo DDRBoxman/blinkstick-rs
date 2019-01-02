@@ -7,8 +7,6 @@ use hidapi::HidResult;
 const BLINKSTICK_VENDOR_ID: u16 = 0x20A0;
 const BLINKSTICK_PRODUCT_ID: u16 = 0x41E5;
 
-const BLINKSTICK_MODE_MSG_SIZE: u8 = 2;
-const BLINKSTICK_SINGLE_LED_MSG_SIZE: usize = 4;
 const BLINKSTICK_INDEXED_LED_MSG_PACKET_SIZE: usize = 6;
 
 pub struct BlinkStickDevice {
