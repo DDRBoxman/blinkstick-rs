@@ -1,5 +1,7 @@
 extern crate hidapi;
 
+use std::vec::Vec;
+
 use hidapi::HidApi;
 use hidapi::HidError;
 use hidapi::HidResult;
@@ -14,15 +16,47 @@ pub struct BlinkStickDevice {
 }
 
 impl BlinkStickDevice {
-    pub fn find_first() -> Result<BlinkStickDevice, HidError> {
+    pub fn open_first() -> Result<BlinkStickDevice, HidError> {
         match HidApi::new() {
             Ok(api) => {
                 // Connect to device using its VID and PID
                 match api.open(BLINKSTICK_VENDOR_ID, BLINKSTICK_PRODUCT_ID) {
-                    Ok(device) => Ok(BlinkStickDevice { device: device }),
+                    Ok(device) => Ok(BlinkStickDevice { device }),
                     Err(e) => return Err(e),
                 }
-            }
+            },
+            Err(e) => return Err(e),
+        }
+    }
+
+    pub fn open(serial: &str) -> Result<BlinkStickDevice, HidError> {
+        match HidApi::new() {
+            Ok(api) => {
+                // Connect to device using its VID and PID
+                match api.open_serial(BLINKSTICK_VENDOR_ID, BLINKSTICK_PRODUCT_ID, serial) {
+                    Ok(device) => Ok(BlinkStickDevice { device }),
+                    Err(e) => return Err(e),
+                }
+            },
+            Err(e) => return Err(e),
+        }
+    }
+
+    pub fn get_serials() -> Result<Vec<String>, HidError> {
+        match HidApi::new() {
+            Ok(api) => {
+                let mut vec: Vec<String> = Vec::new();
+
+                for device in api.devices() {
+                    if device.product_id == BLINKSTICK_PRODUCT_ID && device.vendor_id == BLINKSTICK_VENDOR_ID {
+                        if let Some(serial) = &device.serial_number {
+                            vec.push(serial.to_owned());
+                        }
+                    }
+                }
+
+                return Ok(vec);
+            },
             Err(e) => return Err(e),
         }
     }
